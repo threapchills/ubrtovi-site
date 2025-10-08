@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>UBrToVI | Unique Brand Tone of Voice Identifier</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Map competitor tones on Pitch and Register, then identify a clear tonal white space for your brand voice.">
+  <meta name="description" content="Map competitor tones on Lexical Complexity and Register, then identify clear tonal white space for your brand voice.">
   <link rel="icon" type="image/png" href="favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -30,7 +30,7 @@
     </div>
   </header>
 
-  <!-- Spacer so nothing hides under the header -->
+  <!-- Spacer -->
   <div class="h-14"></div>
 
   <main class="section">
@@ -71,7 +71,7 @@
         <div class="bg-white rounded-2xl p-4 md:p-6 card">
           <div class="flex items-center justify-between mb-3">
             <h2 class="text-lg font-semibold">Tone of voice map</h2>
-            <div class="text-xs text-neutral-600">X = Pitch. Y = Register.</div>
+            <div class="text-xs text-neutral-600">X = Lexical Complexity. Y = Register.</div>
           </div>
 
           <div id="chart-wrap">
@@ -98,7 +98,7 @@
           <div class="bg-white rounded-2xl p-5 card">
             <h3 class="font-semibold mb-1">1. Research</h3>
             <p class="text-sm text-neutral-700">
-              We search for prominent brands in your specified industry or niche, retrieving authentic copy from their official websites, marketing pages, and primary digital properties.
+              We search for 8 to 12 prominent brands in your specified industry or niche, retrieving authentic copy from their official websites, marketing pages, and primary digital properties.
             </p>
           </div>
           <div class="bg-white rounded-2xl p-5 card">
@@ -141,9 +141,12 @@
 
         <!-- Terminology notes -->
         <section class="mt-6 bg-white rounded-2xl p-5 card">
-          <h3 class="font-semibold mb-2">Terminology notes on “Lexical Complexity” and “Register”</h3>
+          <h3 class="font-semibold mb-2">Why "Lexical Complexity" instead of "Pitch"?</h3>
           <p class="text-sm text-neutral-700">
-            Why these two axes specifically? Complexity influences comprehension, which shapes who can understand you. Register influences relationship, which shapes how formal the dynamic feels. Together they form a practical framework for tonal positioning that maps directly to strategic brand choices.
+            While "pitch" is memorable shorthand, we use <strong>Lexical Complexity</strong> for precision. This dimension measures vocabulary sophistication, sentence structure density, and conceptual abstraction—not auditory qualities. It describes whether your language feels accessible or expert, not high or low in sound.
+          </p>
+          <p class="text-sm text-neutral-700 mt-3">
+            <strong>Why these two axes specifically?</strong> Complexity influences comprehension, which shapes who can understand you. Register influences relationship, which shapes how formal the dynamic feels. Together they form a practical framework for tonal positioning that maps directly to strategic brand choices.
           </p>
         </section>
 
@@ -172,9 +175,9 @@
           <h3 class="font-semibold mb-2">Frequently asked questions</h3>
           <div class="space-y-3 text-sm text-neutral-700">
             <p><strong>How many brands do you analyse?</strong><br>Typically 8 to 12 prominent brands in your specified niche, subject to search results and content availability.</p>
-            <p><strong>What if my niche is very specific or regional?</strong><br>The more precise your input, the better. “Luxury safari lodges in Botswana” will yield more relevant results than “hospitality”.</p>
+            <p><strong>What if my niche is very specific or regional?</strong><br>The more precise your input, the better. "Luxury safari lodges in Botswana" will yield more relevant results than "hospitality". Include geographic terms like "in South Africa" or "SA" for regional focus.</p>
             <p><strong>Can I request specific competitors?</strong><br>Not in the current version. The system autonomously identifies prominent brands through search. This keeps things objective, but limits manual control.</p>
-            <p><strong>Is the recommended position prescriptive?</strong><br>No. It is a strategic suggestion based on market gaps. Your final choice should consider brand heritage, audience expectations, and commercial context.</p>
+            <p><strong>Is the recommended position prescriptive?</strong><br>No. It is a strategic suggestion based on market gaps. Your final choice should consider brand heritage, audience expectations, and commercial context. Think of this as evidence to inform judgement, not replace it.</p>
             <p><strong>What should I do with these results?</strong><br>Use them to audit your current voice, brief copywriters with empirical targets, justify tonal decisions to stakeholders, and check whether you are inadvertently mimicking competitors.</p>
           </div>
         </section>
@@ -193,7 +196,7 @@
     </section>
   </main>
 
-  <!-- Footer: stacked, centred, full width -->
+  <!-- Footer -->
   <footer class="section bg-white border-t">
     <div class="max-w-6xl mx-auto px-4 py-8">
       <div class="w-full">
@@ -224,7 +227,7 @@ const canvas = document.getElementById('grid');
 const ctx = canvas.getContext('2d');
 let chart;
 
-// Frame + medians
+// Frame + medians plugin
 const frameAndCross = {
   id: 'frameAndCross',
   afterDatasetsDraw(chart) {
@@ -276,8 +279,8 @@ function renderChart(data) {
       _medianX: mx,
       _medianY: my,
       scales: {
-        x: { title: { display: true, text: 'Pitch 1 simple 10 complex', font: { weight: '600' } }, min: 1, max: 10, ticks: { stepSize: 1 }, grid: { display: false } },
-        y: { title: { display: true, text: 'Register 1 casual 10 formal', font: { weight: '600' } }, min: 1, max: 10, ticks: { stepSize: 1 }, grid: { display: false } }
+        x: { title: { display: true, text: 'Lexical Complexity: 1=simple, 10=complex', font: { weight: '600' } }, min: 1, max: 10, ticks: { stepSize: 1 }, grid: { display: false } },
+        y: { title: { display: true, text: 'Register: 1=casual, 10=formal', font: { weight: '600' } }, min: 1, max: 10, ticks: { stepSize: 1 }, grid: { display: false } }
       },
       plugins: {
         legend: { position: 'bottom' },
@@ -291,16 +294,12 @@ function renderChart(data) {
   });
 }
 
-/* ... keep everything above this as-is ... */
-
-function renderChartWrapper(data){ renderChart(data); }
-
 document.getElementById('nicheForm').addEventListener('submit', async e => {
   e.preventDefault();
   const niche = document.getElementById('niche').value.trim();
   const status = document.getElementById('status');
   const summary = document.getElementById('summary');
-  status.textContent = "Analysing. Please wait.";
+  status.textContent = "Analysing. Please wait...";
   summary.innerHTML = "";
 
   try {
@@ -320,7 +319,7 @@ document.getElementById('nicheForm').addEventListener('submit', async e => {
         <div class="text-xs text-neutral-600 truncate">
           <a href="${it.url}" target="_blank" rel="noreferrer">${it.url}</a>
         </div>
-        <div class="text-xs mt-1">Pitch ${it.pitch} • Register ${it.register}</div>
+        <div class="text-xs mt-1">Complexity ${it.pitch} • Register ${it.register}</div>
         <div class="text-xs mt-2 text-neutral-700">${it.summary || ''}</div>
         ${it.positioning ? `<div class="text-xs mt-2 text-neutral-700"><span class="font-medium">Positioning:</span> ${it.positioning}</div>` : ""}
         ${Array.isArray(it.style_notes) && it.style_notes.length ? `
@@ -330,7 +329,7 @@ document.getElementById('nicheForm').addEventListener('submit', async e => {
         }
         ${Array.isArray(it.evidence) && it.evidence.length ? `
           <div class="text-[11px] text-neutral-500 mt-2">Evidence:
-            ${it.evidence.map(e=>`“${e.quote}” <a class="underline" href="${e.url}" target="_blank" rel="noreferrer">source</a>`).join(" · ")}
+            ${it.evidence.map(e=>`"${e.quote}" <a class="underline" href="${e.url}" target="_blank" rel="noreferrer">source</a>`).join(" · ")}
           </div>` : ""
         }
       </div>
@@ -341,7 +340,7 @@ document.getElementById('nicheForm').addEventListener('submit', async e => {
         <div class="text-sm"><strong>Niche:</strong> ${data.niche}</div>
         <div class="text-sm mt-1"><strong>Least dense quadrant:</strong> ${data.leastDenseQuadrant ?? 'n/a'}</div>
         <div class="text-sm mt-1"><strong>Suggested position:</strong> ${
-          data.suggestion ? `Pitch ${data.suggestion.pitch}, Register ${data.suggestion.register}` : 'n/a'
+          data.suggestion ? `Complexity ${data.suggestion.pitch}, Register ${data.suggestion.register}` : 'n/a'
         }</div>
         <p class="text-sm mt-3 leading-relaxed">${data.rationale || ''}</p>
       </div>
@@ -365,5 +364,3 @@ document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
-
-
