@@ -18,9 +18,9 @@
 </head>
 <body class="bg-neutral-50 text-neutral-900">
 
-  <!-- Header (full width) -->
-  <header class="bg-white/90 backdrop-blur border-b section">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+  <!-- Sticky header with a fixed height -->
+  <header class="bg-white/90 backdrop-blur border-b section sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <img src="favicon.png" alt="UBrToVI" class="w-7 h-7 rounded">
         <span class="font-semibold tracking-tight">UBrToVI</span>
@@ -31,11 +31,17 @@
     </div>
   </header>
 
+  <!-- Spacer equal to header height so first content is never under it -->
+  <div class="h-14"></div>
+
   <main class="section">
 
-    <!-- Hero (full width image) -->
-    <section class="section">
-      <img src="hero.png" alt="Brand voice mapping hero" class="w-full max-h-[520px] object-cover">
+    <!-- Hero: full width, show entire image (no crop) -->
+    <section class="section bg-white">
+      <div class="max-w-6xl mx-auto px-0">
+        <img src="hero.png" alt="Brand voice mapping hero"
+             class="w-full max-h-[520px] object-contain bg-white">
+      </div>
     </section>
 
     <!-- Title + input (full width, centred content) -->
@@ -62,7 +68,7 @@
             <div class="text-xs text-neutral-600">X = Pitch. Y = Register.</div>
           </div>
 
-          <!-- Fixed-height chart wrapper stops infinite growth -->
+          <!-- Fixed-height chart wrapper stops any growth -->
           <div id="chart-wrap">
             <canvas id="grid"></canvas>
           </div>
@@ -84,7 +90,7 @@
           <div id="summary" class="mt-6 grid gap-4"></div>
         </div>
 
-        <!-- How it works (full width) -->
+        <!-- How it works -->
         <section id="how" class="mt-8 grid gap-4">
           <div class="bg-white rounded-2xl p-5 card">
             <h3 class="font-semibold mb-1">Research</h3>
@@ -103,24 +109,28 @@
     </section>
   </main>
 
-  <!-- Footer (full width). Logo row then ad row, both links, always visible -->
+  <!-- Footer: stacked, centred, full-width rows -->
   <footer class="section bg-white border-t">
-    <div class="max-w-6xl mx-auto px-4 py-6">
-      <div class="w-full flex items-center gap-3 py-2">
-        <a href="https://mikewhyle.com" target="_blank" rel="noopener" class="flex items-center gap-3">
-          <img src="mike.png" alt="Mike" class="w-12 h-12 rounded-full object-cover">
-          <div class="text-sm">
-            <div class="font-medium">Mike</div>
-            <div class="text-neutral-600">AI consultant and creative strategist</div>
-          </div>
-        </a>
-        <div class="ml-auto text-sm text-neutral-600">© <span id="year"></span> UBrToVI</div>
-      </div>
-      <div class="w-full py-2">
-        <a href="https://mikewhyle.com/ai/" target="_blank" rel="noopener">
-          <img src="ad.png" alt="Promotion" class="w-full max-h-28 object-contain">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+      <!-- Logo row -->
+      <div class="w-full">
+        <a href="https://mikewhyle.com" target="_blank" rel="noopener" class="block">
+          <img src="mike.png" alt="Mike"
+               class="w-full h-auto object-contain mx-auto rounded-full">
         </a>
       </div>
+      <!-- Headline row -->
+      <div class="w-full text-center mt-3">
+        <div class="text-base font-medium">Mike</div>
+        <div class="text-sm text-neutral-600">AI consultant and creative strategist</div>
+      </div>
+      <!-- Ad row -->
+      <div class="w-full mt-4">
+        <a href="https://mikewhyle.com/ai/" target="_blank" rel="noopener" class="block">
+          <img src="ad.png" alt="Promotion" class="w-full max-h-28 object-contain mx-auto">
+        </a>
+      </div>
+      <div class="text-center text-sm text-neutral-600 mt-4">© <span id="year"></span> UBrToVI</div>
     </div>
   </footer>
 
@@ -195,7 +205,8 @@ function renderChart(data) {
     options: {
       responsive: true,
       maintainAspectRatio: false,   // we control height via #chart-wrap
-      resizeDelay: 100,             // avoids resize loops on some browsers
+      resizeDelay: 100,             // avoids resize loops
+      layout: { padding: { top: 14, right: 14, bottom: 14, left: 14 } },  // prevents any clip at edges
       _medianX: mx,
       _medianY: my,
       scales: {
