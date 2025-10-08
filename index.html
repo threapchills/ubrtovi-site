@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>UBrToVI — Unique Brand Tone of Voice Identifier</title>
+  <title>UBrToVI | Unique Brand Tone of Voice Identifier</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Map competitor tones on Pitch and Register, then identify a clear tonal white space for your brand voice.">
   <link rel="icon" type="image/png" href="favicon.png">
@@ -140,7 +140,7 @@
         <section class="mt-6 bg-white rounded-2xl p-5 card">
           <h3 class="font-semibold mb-2">Terminology notes on “Lexical Complexity” and “Register”</h3>
           <p class="text-sm text-neutral-700">
-            Why these two axes specifically? Complexity influences comprehension — who can understand you. Register influences relationship — how formal the dynamic feels. Together they form a practical framework for tonal positioning that maps directly to strategic brand choices.
+            Why these two axes specifically? Complexity influences comprehension, which shapes who can understand you. Register influences relationship, which shapes how formal the dynamic feels. Together they form a practical framework for tonal positioning that maps directly to strategic brand choices.
           </p>
         </section>
 
@@ -288,6 +288,10 @@ function renderChart(data) {
   });
 }
 
+/* ... keep everything above this as-is ... */
+
+function renderChartWrapper(data){ renderChart(data); }
+
 document.getElementById('nicheForm').addEventListener('submit', async e => {
   e.preventDefault();
   const niche = document.getElementById('niche').value.trim();
@@ -297,7 +301,11 @@ document.getElementById('nicheForm').addEventListener('submit', async e => {
   summary.innerHTML = "";
 
   try {
-    const res = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ niche }) });
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ niche })
+    });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Request failed");
 
@@ -306,9 +314,22 @@ document.getElementById('nicheForm').addEventListener('submit', async e => {
     const compCards = data.items.map(it => `
       <div class="p-4 bg-white rounded-xl border">
         <div class="text-sm font-medium">${it.brand}</div>
-        <div class="text-xs text-neutral-600 truncate"><a href="${it.url}" target="_blank" rel="noreferrer">${it.url}</a></div>
+        <div class="text-xs text-neutral-600 truncate">
+          <a href="${it.url}" target="_blank" rel="noreferrer">${it.url}</a>
+        </div>
         <div class="text-xs mt-1">Pitch ${it.pitch} • Register ${it.register}</div>
-        <div class="text-xs mt-2 text-neutral-700">${it.summary}</div>
+        <div class="text-xs mt-2 text-neutral-700">${it.summary || ''}</div>
+        ${it.positioning ? `<div class="text-xs mt-2 text-neutral-700"><span class="font-medium">Positioning:</span> ${it.positioning}</div>` : ""}
+        ${Array.isArray(it.style_notes) && it.style_notes.length ? `
+          <ul class="text-xs mt-2 text-neutral-700 list-disc ml-4">
+            ${it.style_notes.map(s=>`<li>${s}</li>`).join("")}
+          </ul>` : ""
+        }
+        ${Array.isArray(it.evidence) && it.evidence.length ? `
+          <div class="text-[11px] text-neutral-500 mt-2">Evidence:
+            ${it.evidence.map(e=>`“${e.quote}” <a class="underline" href="${e.url}" target="_blank" rel="noreferrer">source</a>`).join(" · ")}
+          </div>` : ""
+        }
       </div>
     `).join("");
 
