@@ -9,7 +9,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    /* Prevent infinite canvas growth and ensure stable sizing */
     #chart-wrap { width: 100%; height: 460px; position: relative; }
     #grid { width: 100% !important; height: 100% !important; display: block; }
     .card { box-shadow: 0 8px 30px rgba(0,0,0,.06); }
@@ -18,7 +17,7 @@
 </head>
 <body class="bg-neutral-50 text-neutral-900">
 
-  <!-- Sticky header with a fixed height -->
+  <!-- Sticky header -->
   <header class="bg-white/90 backdrop-blur border-b section sticky top-0 z-30">
     <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -31,35 +30,39 @@
     </div>
   </header>
 
-  <!-- Spacer equal to header height so first content is never under it -->
+  <!-- Spacer so nothing hides under the header -->
   <div class="h-14"></div>
 
   <main class="section">
 
-    <!-- Hero: full width, show entire image (no crop) -->
+    <!-- Hero: image -->
     <section class="section bg-white">
       <div class="max-w-6xl mx-auto px-0">
-        <img src="hero.png" alt="Brand voice mapping hero"
-             class="w-full max-h-[520px] object-contain bg-white">
+        <img src="hero.png" alt="Brand voice mapping hero" class="w-full max-h-[520px] object-contain bg-white">
       </div>
     </section>
 
-    <!-- Title + input (full width, centred content) -->
+    <!-- Hero: headline + description + form -->
     <section class="section bg-white">
       <div class="max-w-6xl mx-auto px-4 py-8">
         <h1 class="text-3xl md:text-4xl font-semibold leading-tight">Unique Brand Tone of Voice Identifier</h1>
-        <p class="mt-3 text-neutral-700">Evidence-led brand voice. Map the market. Pick a distinctive position.</p>
-        <p class="mt-3 text-sm text-neutral-600">UBrToVI analyses competitor language to benchmark Pitch and Register, then recommends a differentiated tonal position that is strategically coherent and commercially useful.</p>
+        <p class="mt-3 text-neutral-700">Evidence-led brand voice positioning. Map your market. Claim distinctive tonal territory.</p>
+        <p class="mt-3 text-sm text-neutral-700">
+          UBrToVI analyses competitor language across two linguistic dimensions: <strong>Lexical Complexity</strong> (from plain to technical) and <strong>Register</strong> (from casual to formal). It then identifies strategic white space where your brand can occupy a differentiated position.
+        </p>
 
         <form id="nicheForm" class="mt-6 flex flex-col sm:flex-row gap-3 w-full">
-          <input id="niche" required class="flex-1 border rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="eg. South African challenger banks">
-          <button class="bg-black text-white px-5 py-2.5 rounded-xl hover:bg-neutral-800 active:scale-[.99]" type="submit">Analyse</button>
+          <input id="niche" required class="flex-1 border rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-black/10"
+                 placeholder='e.g., "direct-to-consumer skincare in South Africa" or "B2B cybersecurity software for financial services"'>
+          <button class="bg-black text-white px-5 py-2.5 rounded-xl hover:bg-neutral-800 active:scale-[.99]" type="submit">Analyse Market</button>
         </form>
-        <div id="status" class="text-sm text-neutral-700 mt-2"></div>
+        <div id="status" class="text-xs text-neutral-600 mt-2">
+          Analysis typically takes 25 to 35 seconds. We are searching, retrieving content, and scoring linguistic patterns.
+        </div>
       </div>
     </section>
 
-    <!-- Chart section (full width) -->
+    <!-- Chart section -->
     <section class="section">
       <div class="max-w-6xl mx-auto px-4 pb-8">
         <div class="bg-white rounded-2xl p-4 md:p-6 card">
@@ -68,12 +71,10 @@
             <div class="text-xs text-neutral-600">X = Pitch. Y = Register.</div>
           </div>
 
-          <!-- Fixed-height chart wrapper stops any growth -->
           <div id="chart-wrap">
             <canvas id="grid"></canvas>
           </div>
 
-          <!-- Legend -->
           <div class="mt-3 text-xs text-neutral-700 text-center">
             <span class="inline-flex items-center gap-2 mr-4">
               <span class="inline-block w-3 h-3 rounded-full" style="background:#4b5563"></span> Competitors
@@ -86,51 +87,130 @@
             </span>
           </div>
 
-          <!-- Narrative summary -->
           <div id="summary" class="mt-6 grid gap-4"></div>
         </div>
 
         <!-- How it works -->
-        <section id="how" class="mt-8 grid gap-4">
+        <section id="how" class="mt-10 grid gap-4">
           <div class="bg-white rounded-2xl p-5 card">
-            <h3 class="font-semibold mb-1">Research</h3>
-            <p class="text-sm text-neutral-700">We fetch official sites and top properties for prominent brands in your niche, then extract representative copy.</p>
+            <h3 class="font-semibold mb-1">1. Research</h3>
+            <p class="text-sm text-neutral-700">
+              We search for 8 to 12 prominent brands in your specified industry or niche, retrieving authentic copy from their official websites, marketing pages, and primary digital properties.
+            </p>
           </div>
           <div class="bg-white rounded-2xl p-5 card">
-            <h3 class="font-semibold mb-1">Scoring</h3>
-            <p class="text-sm text-neutral-700">Each competitor is scored for <em>Pitch</em> from simple to complex, and <em>Register</em> from casual to formal, on a 1–10 scale.</p>
+            <h3 class="font-semibold mb-1">2. Linguistic scoring</h3>
+            <p class="text-sm text-neutral-700">
+              Each competitor receives two scores on a 1 to 10 scale.
+            </p>
+            <ul class="text-sm text-neutral-700 list-disc ml-5 mt-2 space-y-1">
+              <li><strong>Lexical Complexity</strong>: from accessible, high-school-level language (1 to 3) through moderate sophistication (4 to 6) to dense, technical, expert-level discourse (7 to 10).</li>
+              <li><strong>Register</strong>: from casual, colloquial, conversational tone with contractions and personal language (1 to 3) through balanced professionalism (4 to 6) to highly formal, corporate, and impersonal communication (7 to 10).</li>
+            </ul>
           </div>
           <div class="bg-white rounded-2xl p-5 card">
-            <h3 class="font-semibold mb-1">Positioning</h3>
-            <p class="text-sm text-neutral-700">We plot the field, locate the least dense quadrant, and recommend a position that maximises distinctiveness without breaking category norms.</p>
+            <h3 class="font-semibold mb-1">3. Strategic positioning</h3>
+            <p class="text-sm text-neutral-700">
+              We plot all competitors on a two-axis map, divide the space into quadrants using median splits, and identify the least-populated region. Your recommended position sits within this strategic gap, close enough to remain category-appropriate yet distinct enough to differentiate meaningfully.
+            </p>
           </div>
+        </section>
+
+        <!-- What you'll receive -->
+        <section class="mt-10 bg-white rounded-2xl p-5 card">
+          <h3 class="font-semibold mb-2">What you will receive</h3>
+          <ul class="text-sm text-neutral-700 list-disc ml-5 space-y-1">
+            <li><strong>Visual tone map</strong>: an interactive scatter plot showing where each major competitor sits on the Complexity by Register grid.</li>
+            <li><strong>Your recommended coordinates</strong>: specific scores positioning your brand in the least-crowded strategic space.</li>
+            <li><strong>Competitor summaries</strong>: brief linguistic profiles of each analysed brand.</li>
+            <li><strong>Strategic rationale</strong>: a concise explanation of why this positioning creates meaningful differentiation within your category.</li>
+          </ul>
+        </section>
+
+        <!-- Why this matters -->
+        <section class="mt-6 bg-white rounded-2xl p-5 card">
+          <h3 class="font-semibold mb-2">Why this matters</h3>
+          <p class="text-sm text-neutral-700">
+            Most brands unconsciously mimic category conventions, which creates tonal homogeneity and makes differentiation difficult. By mapping the actual linguistic terrain of your market, UBrToVI reveals where authentic distinctiveness exists. Not through arbitrary creative choices, but through deliberate, evidence-based positioning.
+          </p>
+          <p class="text-sm text-neutral-800 mt-3 font-medium">Tone of voice is not decoration. It is strategic architecture.</p>
+        </section>
+
+        <!-- Terminology notes -->
+        <section class="mt-6 bg-white rounded-2xl p-5 card">
+          <h3 class="font-semibold mb-2">Terminology notes on “Lexical Complexity” and “Register”</h3>
+          <p class="text-sm text-neutral-700">
+            Why these two axes specifically? Complexity influences comprehension — who can understand you. Register influences relationship — how formal the dynamic feels. Together they form a practical framework for tonal positioning that maps directly to strategic brand choices.
+          </p>
+        </section>
+
+        <!-- About -->
+        <section class="mt-6 bg-white rounded-2xl p-5 card">
+          <h3 class="font-semibold mb-2">About this tool</h3>
+          <p class="text-sm text-neutral-700">
+            UBrToVI was built to solve a common problem: most brand voice decisions are made through subjective workshops rather than market evidence. This tool brings empirical rigour to a domain usually dominated by intuition.
+          </p>
+          <ul class="text-sm text-neutral-700 list-disc ml-5 mt-2 space-y-1">
+            <li><strong>Tavily API</strong> for targeted brand research</li>
+            <li><strong>OpenAI GPT-4o Mini</strong> for linguistic analysis</li>
+            <li><strong>Cloudflare Workers</strong> for serverless processing</li>
+            <li><strong>Chart.js</strong> for visualisation</li>
+          </ul>
+          <p class="text-sm text-neutral-700 mt-2">
+            All analysis happens in real time. No data is stored. Each query is a fresh market snapshot.
+          </p>
+          <p class="text-sm text-neutral-700 mt-2">
+            Built by <a class="underline hover:no-underline" href="https://mikewhyle.com" target="_blank" rel="noopener">Mike Whyle</a> as a demonstration of agentic AI applied to marketing strategy.
+          </p>
+        </section>
+
+        <!-- FAQ -->
+        <section class="mt-6 bg-white rounded-2xl p-5 card">
+          <h3 class="font-semibold mb-2">Frequently asked questions</h3>
+          <div class="space-y-3 text-sm text-neutral-700">
+            <p><strong>How many brands do you analyse?</strong><br>Typically 8 to 12 prominent brands in your specified niche, subject to search results and content availability.</p>
+            <p><strong>What if my niche is very specific or regional?</strong><br>The more precise your input, the better. “Luxury safari lodges in Botswana” will yield more relevant results than “hospitality”.</p>
+            <p><strong>Can I request specific competitors?</strong><br>Not in the current version. The system autonomously identifies prominent brands through search. This keeps things objective, but limits manual control.</p>
+            <p><strong>Is the recommended position prescriptive?</strong><br>No. It is a strategic suggestion based on market gaps. Your final choice should consider brand heritage, audience expectations, and commercial context.</p>
+            <p><strong>What should I do with these results?</strong><br>Use them to audit your current voice, brief copywriters with empirical targets, justify tonal decisions to stakeholders, and check whether you are inadvertently mimicking competitors.</p>
+          </div>
+        </section>
+
+        <!-- Privacy -->
+        <section class="mt-6 bg-white rounded-2xl p-5 card">
+          <h3 class="font-semibold mb-2">Privacy and usage</h3>
+          <ul class="text-sm text-neutral-700 list-disc ml-5 space-y-1">
+            <li>No data is stored or logged.</li>
+            <li>API keys are secured via Cloudflare Workers.</li>
+            <li>Rate limiting prevents abuse.</li>
+            <li>All processing happens server-side.</li>
+          </ul>
         </section>
       </div>
     </section>
   </main>
 
-  <!-- Footer: stacked, centred, full-width rows -->
+  <!-- Footer: stacked, centred, full width -->
   <footer class="section bg-white border-t">
     <div class="max-w-6xl mx-auto px-4 py-8">
-      <!-- Logo row -->
       <div class="w-full">
         <a href="https://mikewhyle.com" target="_blank" rel="noopener" class="block">
-          <img src="mike.png" alt="Mike"
-               class="w-full h-auto object-contain mx-auto rounded-full">
+          <img src="mike.png" alt="Mike" class="w-full h-auto object-contain mx-auto rounded-full">
         </a>
       </div>
-      <!-- Headline row -->
       <div class="w-full text-center mt-3">
         <div class="text-base font-medium">Mike</div>
         <div class="text-sm text-neutral-600">AI consultant and creative strategist</div>
       </div>
-      <!-- Ad row -->
       <div class="w-full mt-4">
         <a href="https://mikewhyle.com/ai/" target="_blank" rel="noopener" class="block">
           <img src="ad.png" alt="Promotion" class="w-full max-h-28 object-contain mx-auto">
         </a>
       </div>
-      <div class="text-center text-sm text-neutral-600 mt-4">© <span id="year"></span> UBrToVI</div>
+      <div class="text-center text-sm text-neutral-600 mt-4">
+        © <span id="year"></span> Mike Whyle | <a class="underline hover:no-underline" href="https://mikewhyle.com" target="_blank" rel="noopener">Portfolio</a> | <a class="underline hover:no-underline" href="#" target="_blank" rel="noopener">LinkedIn</a> | <a class="underline hover:no-underline" href="#" target="_blank" rel="noopener">GitHub</a><br>
+        <em>UBrToVI is a demonstration project. Results are algorithmically generated and should inform, not replace, strategic judgement.</em>
+      </div>
     </div>
   </footer>
 
@@ -141,19 +221,17 @@ const canvas = document.getElementById('grid');
 const ctx = canvas.getContext('2d');
 let chart;
 
-/* Bold square frame + dashed medians */
+// Frame + medians
 const frameAndCross = {
   id: 'frameAndCross',
   afterDatasetsDraw(chart) {
     const {ctx, chartArea: {left, right, top, bottom}, scales: {x, y}} = chart;
     ctx.save();
-    // Frame
     ctx.lineWidth = 2.5;
     ctx.strokeStyle = '#0a0a0a';
     ctx.beginPath();
     ctx.rect(left, top, right - left, bottom - top);
     ctx.stroke();
-    // Medians
     const mx = chart.config.options._medianX;
     const my = chart.config.options._medianY;
     if (typeof mx === 'number' && typeof my === 'number') {
@@ -183,54 +261,27 @@ function renderChart(data) {
     type: 'scatter',
     data: {
       datasets: [
-        {
-          label: 'Competitors',
-          data: competitorPts,
-          pointRadius: 5,
-          backgroundColor: '#4b5563',
-          borderColor: '#374151',
-          borderWidth: 1
-        },
-        {
-          label: 'Suggested position',
-          data: suggestionPt,
-          pointRadius: 7,
-          pointStyle: 'triangle',
-          backgroundColor: '#2563eb',
-          borderColor: '#1e40af',
-          borderWidth: 2
-        }
+        { label: 'Competitors', data: competitorPts, pointRadius: 5, backgroundColor: '#4b5563', borderColor: '#374151', borderWidth: 1 },
+        { label: 'Suggested position', data: suggestionPt, pointRadius: 7, pointStyle: 'triangle', backgroundColor: '#2563eb', borderColor: '#1e40af', borderWidth: 2 }
       ]
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false,   // we control height via #chart-wrap
-      resizeDelay: 100,             // avoids resize loops
-      layout: { padding: { top: 14, right: 14, bottom: 14, left: 14 } },  // prevents any clip at edges
+      maintainAspectRatio: false,
+      resizeDelay: 100,
+      layout: { padding: { top: 14, right: 14, bottom: 14, left: 14 } },
       _medianX: mx,
       _medianY: my,
       scales: {
-        x: {
-          title: { display: true, text: 'Pitch 1 simple 10 complex', font: { weight: '600' } },
-          min: 1, max: 10, ticks: { stepSize: 1 },
-          grid: { display: false }
-        },
-        y: {
-          title: { display: true, text: 'Register 1 casual 10 formal', font: { weight: '600' } },
-          min: 1, max: 10, ticks: { stepSize: 1 },
-          grid: { display: false }
-        }
+        x: { title: { display: true, text: 'Pitch 1 simple 10 complex', font: { weight: '600' } }, min: 1, max: 10, ticks: { stepSize: 1 }, grid: { display: false } },
+        y: { title: { display: true, text: 'Register 1 casual 10 formal', font: { weight: '600' } }, min: 1, max: 10, ticks: { stepSize: 1 }, grid: { display: false } }
       },
       plugins: {
         legend: { position: 'bottom' },
-        tooltip: {
-          callbacks: {
-            label: ctx => {
-              const d = ctx.raw;
-              return d.brand ? `${d.brand} (${d.x}, ${d.y})` : `Suggested (${d.x}, ${d.y})`;
-            }
-          }
-        }
+        tooltip: { callbacks: { label: ctx => {
+          const d = ctx.raw;
+          return d.brand ? `${d.brand} (${d.x}, ${d.y})` : `Suggested (${d.x}, ${d.y})`;
+        }}}
       }
     },
     plugins: [frameAndCross]
@@ -246,11 +297,7 @@ document.getElementById('nicheForm').addEventListener('submit', async e => {
   summary.innerHTML = "";
 
   try {
-    const res = await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ niche })
-    });
+    const res = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ niche }) });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Request failed");
 
@@ -259,9 +306,7 @@ document.getElementById('nicheForm').addEventListener('submit', async e => {
     const compCards = data.items.map(it => `
       <div class="p-4 bg-white rounded-xl border">
         <div class="text-sm font-medium">${it.brand}</div>
-        <div class="text-xs text-neutral-600 truncate">
-          <a href="${it.url}" target="_blank" rel="noreferrer">${it.url}</a>
-        </div>
+        <div class="text-xs text-neutral-600 truncate"><a href="${it.url}" target="_blank" rel="noreferrer">${it.url}</a></div>
         <div class="text-xs mt-1">Pitch ${it.pitch} • Register ${it.register}</div>
         <div class="text-xs mt-2 text-neutral-700">${it.summary}</div>
       </div>
