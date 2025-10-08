@@ -9,16 +9,18 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    /* subtle polish */
+    /* Prevent infinite canvas growth and ensure stable sizing */
+    #chart-wrap { width: 100%; height: 460px; position: relative; }
+    #grid { width: 100% !important; height: 100% !important; display: block; }
     .card { box-shadow: 0 8px 30px rgba(0,0,0,.06); }
+    .section { width: 100%; }
   </style>
 </head>
 <body class="bg-neutral-50 text-neutral-900">
- 
-  Find your tonal white space: See the gap. Own the gap.
-  
-  <header class="bg-white/80 backdrop-blur sticky top-0 z-30 border-b">
-    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+
+  <!-- Header (full width) -->
+  <header class="bg-white/90 backdrop-blur border-b section">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <img src="favicon.png" alt="UBrToVI" class="w-7 h-7 rounded">
         <span class="font-semibold tracking-tight">UBrToVI</span>
@@ -29,119 +31,127 @@
     </div>
   </header>
 
-  <main>
-    <!-- Hero -->
-    <section class="relative overflow-hidden">
-      <div class="max-w-5xl mx-auto px-4 pt-10 pb-8 grid md:grid-cols-2 gap-8 items-center">
-        <div>
-          <h1 class="text-3xl md:text-4xl font-semibold leading-tight">Unique Brand Tone of Voice Identifier</h1>
-          <p class="mt-3 text-neutral-700">Evidence-led brand voice. Map the market. Pick a distinctive position.</p>
-          <p class="mt-4 text-sm text-neutral-600">UBrToVI analyses competitor language to benchmark Pitch and Register, then recommends a differentiated tonal position that is strategically coherent and commercially useful.</p>
-          <form id="nicheForm" class="mt-6 flex gap-3">
-            <input id="niche" required class="flex-1 border rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="eg. South African challenger banks">
-            <button class="bg-black text-white px-5 py-2.5 rounded-xl hover:bg-neutral-800 active:scale-[.99]" type="submit">Analyse</button>
-          </form>
-          <div id="status" class="text-sm text-neutral-700 mt-2"></div>
-        </div>
-        <div class="relative">
-          <img src="hero.png" alt="Brand voice mapping" class="w-full rounded-2xl card object-cover">
-        </div>
+  <main class="section">
+
+    <!-- Hero (full width image) -->
+    <section class="section">
+      <img src="hero.png" alt="Brand voice mapping hero" class="w-full max-h-[520px] object-cover">
+    </section>
+
+    <!-- Title + input (full width, centred content) -->
+    <section class="section bg-white">
+      <div class="max-w-6xl mx-auto px-4 py-8">
+        <h1 class="text-3xl md:text-4xl font-semibold leading-tight">Unique Brand Tone of Voice Identifier</h1>
+        <p class="mt-3 text-neutral-700">Evidence-led brand voice. Map the market. Pick a distinctive position.</p>
+        <p class="mt-3 text-sm text-neutral-600">UBrToVI analyses competitor language to benchmark Pitch and Register, then recommends a differentiated tonal position that is strategically coherent and commercially useful.</p>
+
+        <form id="nicheForm" class="mt-6 flex flex-col sm:flex-row gap-3 w-full">
+          <input id="niche" required class="flex-1 border rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="eg. South African challenger banks">
+          <button class="bg-black text-white px-5 py-2.5 rounded-xl hover:bg-neutral-800 active:scale-[.99]" type="submit">Analyse</button>
+        </form>
+        <div id="status" class="text-sm text-neutral-700 mt-2"></div>
       </div>
     </section>
 
-    <!-- Chart + Summary -->
-    <section class="max-w-5xl mx-auto px-4 pb-10">
-      <div class="bg-white rounded-2xl p-4 md:p-6 card">
-        <div class="flex items-center justify-between mb-3">
-          <h2 class="text-lg font-semibold">Tone of voice map</h2>
-          <div class="text-xs text-neutral-600">X = Pitch. Y = Register.</div>
-        </div>
+    <!-- Chart section (full width) -->
+    <section class="section">
+      <div class="max-w-6xl mx-auto px-4 pb-8">
+        <div class="bg-white rounded-2xl p-4 md:p-6 card">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-lg font-semibold">Tone of voice map</h2>
+            <div class="text-xs text-neutral-600">X = Pitch. Y = Register.</div>
+          </div>
 
-        <!-- Chart canvas -->
-        <div class="relative">
-          <canvas id="grid" class="w-full h-[420px]"></canvas>
-          <div class="mt-2 text-xs text-neutral-600 text-center">
+          <!-- Fixed-height chart wrapper stops infinite growth -->
+          <div id="chart-wrap">
+            <canvas id="grid"></canvas>
+          </div>
+
+          <!-- Legend -->
+          <div class="mt-3 text-xs text-neutral-700 text-center">
             <span class="inline-flex items-center gap-2 mr-4">
               <span class="inline-block w-3 h-3 rounded-full" style="background:#4b5563"></span> Competitors
             </span>
             <span class="inline-flex items-center gap-2 mr-4">
-              <span class="inline-block w-3 h-3 rounded-full" style="background:#2563eb"></span> Your suggested position
+              <span class="inline-block w-3 h-3 rounded" style="background:#2563eb"></span> Your suggested position
             </span>
             <span class="inline-flex items-center gap-2">
               <span class="inline-block w-3 h-[2px] bg-black"></span> Median axes
             </span>
           </div>
+
+          <!-- Narrative summary -->
+          <div id="summary" class="mt-6 grid gap-4"></div>
         </div>
 
-        <!-- Narrative summary -->
-        <div id="summary" class="mt-6 grid gap-4 md:grid-cols-2"></div>
+        <!-- How it works (full width) -->
+        <section id="how" class="mt-8 grid gap-4">
+          <div class="bg-white rounded-2xl p-5 card">
+            <h3 class="font-semibold mb-1">Research</h3>
+            <p class="text-sm text-neutral-700">We fetch official sites and top properties for prominent brands in your niche, then extract representative copy.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-5 card">
+            <h3 class="font-semibold mb-1">Scoring</h3>
+            <p class="text-sm text-neutral-700">Each competitor is scored for <em>Pitch</em> from simple to complex, and <em>Register</em> from casual to formal, on a 1–10 scale.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-5 card">
+            <h3 class="font-semibold mb-1">Positioning</h3>
+            <p class="text-sm text-neutral-700">We plot the field, locate the least dense quadrant, and recommend a position that maximises distinctiveness without breaking category norms.</p>
+          </div>
+        </section>
       </div>
-
-      <!-- How it works -->
-      <section id="how" class="mt-10 grid md:grid-cols-3 gap-4">
-        <div class="bg-white rounded-2xl p-5 card">
-          <h3 class="font-semibold mb-1">Research</h3>
-          <p class="text-sm text-neutral-700">We fetch official sites and top properties for prominent brands in your niche, then extract representative copy.</p>
-        </div>
-        <div class="bg-white rounded-2xl p-5 card">
-          <h3 class="font-semibold mb-1">Scoring</h3>
-          <p class="text-sm text-neutral-700">Each competitor is scored for <em>Pitch</em> from simple to complex, and <em>Register</em> from casual to formal, on a 1–10 scale.</p>
-        </div>
-        <div class="bg-white rounded-2xl p-5 card">
-          <h3 class="font-semibold mb-1">Positioning</h3>
-          <p class="text-sm text-neutral-700">We plot the field, locate the least dense quadrant, and recommend a position that maximises distinctiveness without breaking category norms.</p>
-        </div>
-      </section>
     </section>
   </main>
 
-  <footer class="border-t">
-    <div class="max-w-5xl mx-auto px-4 py-6 grid md:grid-cols-3 gap-6 items-center">
-      <div class="flex items-center gap-3">
-        <img src="mike.png" alt="Mike" class="w-10 h-10 rounded-full object-cover">
-        <div class="text-sm">
-          <div class="font-medium">Mike</div>
-          <div class="text-neutral-600">AI consultant and creative strategist</div>
-        </div>
+  <!-- Footer (full width). Logo row then ad row, both links, always visible -->
+  <footer class="section bg-white border-t">
+    <div class="max-w-6xl mx-auto px-4 py-6">
+      <div class="w-full flex items-center gap-3 py-2">
+        <a href="https://mikewhyle.com" target="_blank" rel="noopener" class="flex items-center gap-3">
+          <img src="mike.png" alt="Mike" class="w-12 h-12 rounded-full object-cover">
+          <div class="text-sm">
+            <div class="font-medium">Mike</div>
+            <div class="text-neutral-600">AI consultant and creative strategist</div>
+          </div>
+        </a>
+        <div class="ml-auto text-sm text-neutral-600">© <span id="year"></span> UBrToVI</div>
       </div>
-      <div class="text-sm text-neutral-600 text-center">© <span id="year"></span> UBrToVI. All rights reserved.</div>
-      <div class="justify-self-end">
-        <img src="ad.png" alt="Promotion" class="h-10 object-contain">
+      <div class="w-full py-2">
+        <a href="https://mikewhyle.com/ai/" target="_blank" rel="noopener">
+          <img src="ad.png" alt="Promotion" class="w-full max-h-28 object-contain">
+        </a>
       </div>
     </div>
   </footer>
 
 <script>
-const WORKER_URL = "https://ubrtovi-worker.ubrtovi.workers.dev"; // your live endpoint
+const WORKER_URL = "https://ubrtovi-worker.ubrtovi.workers.dev";
 
-const ctx = document.getElementById('grid').getContext('2d');
+const canvas = document.getElementById('grid');
+const ctx = canvas.getContext('2d');
 let chart;
 
-// Chart styling plugin: draw a bold square frame and cross at medians
+/* Bold square frame + dashed medians */
 const frameAndCross = {
   id: 'frameAndCross',
-  afterDatasetsDraw(chart, args, pluginOptions) {
+  afterDatasetsDraw(chart) {
     const {ctx, chartArea: {left, right, top, bottom}, scales: {x, y}} = chart;
-
-    // Bold square frame
     ctx.save();
+    // Frame
     ctx.lineWidth = 2.5;
     ctx.strokeStyle = '#0a0a0a';
     ctx.beginPath();
     ctx.rect(left, top, right - left, bottom - top);
     ctx.stroke();
-
-    // Median cross if medians are present on chart config
+    // Medians
     const mx = chart.config.options._medianX;
     const my = chart.config.options._medianY;
     if (typeof mx === 'number' && typeof my === 'number') {
       ctx.lineWidth = 1.5;
       ctx.setLineDash([6, 6]);
       ctx.beginPath();
-      // vertical line at median X
       ctx.moveTo(x.getPixelForValue(mx), top);
       ctx.lineTo(x.getPixelForValue(mx), bottom);
-      // horizontal line at median Y
       ctx.moveTo(left, y.getPixelForValue(my));
       ctx.lineTo(right, y.getPixelForValue(my));
       ctx.stroke();
@@ -158,6 +168,7 @@ function renderChart(data) {
   const my = data.medians?.register ?? null;
 
   if (chart) chart.destroy();
+
   chart = new Chart(ctx, {
     type: 'scatter',
     data: {
@@ -166,8 +177,8 @@ function renderChart(data) {
           label: 'Competitors',
           data: competitorPts,
           pointRadius: 5,
-          backgroundColor: '#4b5563',   // slate-600
-          borderColor: '#374151',       // gray-700
+          backgroundColor: '#4b5563',
+          borderColor: '#374151',
           borderWidth: 1
         },
         {
@@ -175,15 +186,16 @@ function renderChart(data) {
           data: suggestionPt,
           pointRadius: 7,
           pointStyle: 'triangle',
-          backgroundColor: '#2563eb',   // blue-600
-          borderColor: '#1e40af',       // blue-800
+          backgroundColor: '#2563eb',
+          borderColor: '#1e40af',
           borderWidth: 2
         }
       ]
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false,
+      maintainAspectRatio: false,   // we control height via #chart-wrap
+      resizeDelay: 100,             // avoids resize loops on some browsers
       _medianX: mx,
       _medianY: my,
       scales: {
@@ -257,8 +269,8 @@ document.getElementById('nicheForm').addEventListener('submit', async e => {
 
     summary.innerHTML = `
       ${rationaleBlock}
-      <div class="md:col-span-2">
-        <h3 class="text-base font-semibold mt-2 mb-2">Competitor tone snapshots</h3>
+      <div class="mt-2">
+        <h3 class="text-base font-semibold mb-2">Competitor tone snapshots</h3>
         <div class="grid gap-3 md:grid-cols-2">${compCards}</div>
       </div>
     `;
@@ -269,9 +281,7 @@ document.getElementById('nicheForm').addEventListener('submit', async e => {
   }
 });
 
-// footer year
 document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
-
